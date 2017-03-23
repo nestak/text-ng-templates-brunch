@@ -45,7 +45,7 @@ app/
 
 And example `a-directive.html` file.
 
-```
+```html
 <ul>
     <li ng-repeat="...">some code...</li>
 </ul>
