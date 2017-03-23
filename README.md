@@ -48,3 +48,7 @@ export default function aDirective () {
     };
 }
 ```
+
+### License
+
+[MIT](LICENSE)
