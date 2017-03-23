@@ -5,9 +5,10 @@ var glob = require('glob');
 var cheerio = require('cheerio');
 
 function Templates (config) {
-    var defaultTarget = './app/assets/index.html';
-    var params = config.plugins.textNgTemplates || {};
-    this.target = params.target || defaultTarget;
+    var defaults = {
+        target: './app/assets/index.html'
+    };
+    this.config = config.plugins.textNgTemplates || defaults;
     this.TEMPLATE_CACHE = {};
     this.templatesToUpdate = [];
 }
@@ -17,7 +18,7 @@ Templates.prototype.type = 'javascript';
 Templates.prototype.extension = 'html';
 
 Templates.prototype.preCompile = function () {
-    var target = this.target;
+    var target = this.config.target;
 
     glob('app/**/*.html', function (err, paths) {
         if (err) { throw err; }
@@ -53,7 +54,7 @@ Templates.prototype.compile = function (file) {
 
 Templates.prototype.onCompile = function () {
     var cache = this.TEMPLATE_CACHE;
-    var target = this.target;
+    var target = this.config.target;
     var templatesToUpdate = this.templatesToUpdate;
 
     if (templatesToUpdate.length > 0) {
