@@ -26,8 +26,7 @@ If you want to change default behaviour, you can use following options in `brunc
 ```javascript
 exports.plugins = {
     textNgTemplates: {
-        target: './path/to/target.html' // [[ String ]]
-        element: '#valid-selector' // [[ String ]]
+        target: './path/to/target.html' // String
     }
 };
 ```
