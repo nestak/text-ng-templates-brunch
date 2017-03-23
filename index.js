@@ -23,8 +23,6 @@ Templates.prototype.preCompile = function () {
     glob('app/**/*.html', function (err, paths) {
         if (err) { throw err; }
 
-        var pattern = /<!-- templateCache -->(\s|.)*(?=<\/body>)/g;
-
         fs.readFile(target, 'utf-8', function (err, data) {
             if (err) { throw err; }
 
@@ -37,9 +35,12 @@ Templates.prototype.preCompile = function () {
                 }
             });
 
-            var dataStr = `<!-- templateCache -->\r\n${tags.join('')}`;
+            var $ = cheerio.load(data);
+            var element = $('body');
+            element.find('script[type="text/ng-template"]').remove();
+            element.append(tags.join(''));
 
-            fs.writeFile(target, data.replace(pattern, dataStr), 'utf-8', function (err) {
+            fs.writeFile(target, $.html(), 'utf-8', function (err) {
                 if (err) { throw err; }
             });
         });
