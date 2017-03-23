@@ -1,0 +1,11 @@
+{
+  "name": "text-ng-templates-brunch",
+  "version": "0.1.0",
+  "peerDependencies": {
+    "brunch": "~2.10"
+  },
+  "dependencies": {
+    "glob": "~6.0",
+    "cheerio": "~0.22"
+  }
+}
