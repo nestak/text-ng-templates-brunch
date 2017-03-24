@@ -8,10 +8,10 @@ function Templates (config) {
     var defaults = {
         insertTo: './public/index.html'
     };
-    var params = config.plugins.textNgTemplates;
+    var params = Object.assign(defaults, config.plugins.textNgTemplates);
 
-    this.insertTo = params ? params.insertTo : defaults.insertTo;
-    this.targetId = filename(this.insertTo);
+    this.insertTo = params.insertTo;
+    this.targetId = filename(params.insertTo);
     this.TEMPLATE_CACHE = {};
     this.templatesToUpdate = [];
 }
