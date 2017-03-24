@@ -64,7 +64,14 @@ Templates.prototype.onCompile = function () {
 
             var $ = cheerio.load(data);
             templatesToUpdate.forEach(function (id) {
-                $('#' + id).text(cache[id]);
+                var target = $('#' + id);
+                if (target.length > 0) {
+                    target.text(cache[id]);
+                }
+                else {
+                    var template = $(`<script type="text/ng-template" id="${id}">${cache[id]}</script>`);
+                    $('body').append(template);
+                }
             });
 
             fs.writeFile(target, $.html(), function (err) {
