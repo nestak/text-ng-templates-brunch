@@ -6,7 +6,7 @@ This [Brunch](http://brunch.io) plugin copies a tree of `.html` templates into a
 
 ### Usage
 
-By default, all html files found under your javascripts tree will be copied and inserted as script tags just before closing body tag. Just make sure you follow conventions (see configuration below), and ensure that plugin name is listed as dependency in your `package.json`.
+By default, all html files found under your app tree will be copied and inserted as script tags just before closing body tag. Just make sure you follow conventions (see configuration below), and ensure that plugin name is listed as dependency in your `package.json`.
 
 ### Limitations
 
@@ -16,7 +16,7 @@ Each of your angular template html file, needs to have a unique name; otherwise 
 
 This plugin works "out of the box", if you follow usual conventions:
 
-- your index.html file is located under `app/assets/index.html`
+- your application's index.html file is located under `public/index.html`
 - you use `.html` extension for your angular templates
 
 By default `script` tags will be added just before closing `body` tag.
@@ -26,7 +26,8 @@ If you want to change default behaviour, you can use following options in `brunc
 ```javascript
 exports.plugins = {
     textNgTemplates: {
-        target: './path/to/target.html' // String
+        insertTo: './path/to/target.html' // String
+        // default path is './public/index.html'
     }
 };
 ```

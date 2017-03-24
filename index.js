@@ -6,56 +6,31 @@ var cheerio = require('cheerio');
 
 function Templates (config) {
     var defaults = {
-        target: './app/assets/index.html'
+        insertTo: './public/index.html'
     };
-    this.config = config.plugins.textNgTemplates || defaults;
+    var params = config.plugins.textNgTemplates;
+
+    this.insertTo = params ? params.insertTo : defaults.insertTo;
+    this.targetId = filename(this.insertTo);
     this.TEMPLATE_CACHE = {};
     this.templatesToUpdate = [];
 }
 
 Templates.prototype.brunchPlugin = true;
-Templates.prototype.type = 'javascript';
 Templates.prototype.extension = 'html';
 
-Templates.prototype.preCompile = function () {
-    var target = this.config.target;
-
-    glob('app/**/*.html', function (err, paths) {
-        if (err) { throw err; }
-
-        fs.readFile(target, 'utf-8', function (err, data) {
-            if (err) { throw err; }
-
-            var tags = [];
-            var indexId = target.split('/').pop().split('.').shift();
-            paths.forEach(function (path) {
-                var id = path.split('/').pop().split('.').shift();
-                if (id !== indexId) {
-                    tags.push(`<script type="text/ng-template" id="${id}"></script>\r\n`);
-                }
-            });
-
-            var $ = cheerio.load(data);
-            var element = $('body');
-            element.find('script[type="text/ng-template"]').remove();
-            element.append(tags.join(''));
-
-            fs.writeFile(target, $.html(), 'utf-8', function (err) {
-                if (err) { throw err; }
-            });
-        });
-    });
-};
-
 Templates.prototype.compile = function (file) {
-    var id = file.path.split('/').pop().split('.').shift();
-    this.TEMPLATE_CACHE[ id ] = file.data;
-    this.templatesToUpdate.push(id);
+    var id = filename(file.path);
+
+    if (id !== this.targetId) {
+        this.TEMPLATE_CACHE[id] = file.data;
+        this.templatesToUpdate.push(id);
+    }
 };
 
-Templates.prototype.onCompile = function () {
+Templates.prototype.onCompile = function (files, assets) {
     var cache = this.TEMPLATE_CACHE;
-    var target = this.config.target;
+    var target = this.insertTo;
     var templatesToUpdate = this.templatesToUpdate;
 
     if (templatesToUpdate.length > 0) {
@@ -76,10 +51,14 @@ Templates.prototype.onCompile = function () {
 
             fs.writeFile(target, $.html(), function (err) {
                 if (err) { throw err; }
-                templatesToUpdate.length = 0;
             });
+            templatesToUpdate.length = 0;
         });
     }
 };
+
+function filename (path) {
+    return path.split('/').pop().split('.').shift();
+}
 
 module.exports = Templates;
