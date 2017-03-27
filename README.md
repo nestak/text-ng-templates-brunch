@@ -2,7 +2,13 @@
 
 This [Brunch](http://brunch.io) plugin copies a tree of `.html` templates into application's `index.html` file as a bunch of `<script type="text/ng-template" id="FILENAME">` tags.
 
-<!-- TODO installation -->
+### Installation
+
+Install locally under your project directory.
+
+```
+npm install --save-dev text-ng-templates-brunch
+```
 
 ### Usage
 
