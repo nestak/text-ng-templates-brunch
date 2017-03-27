@@ -1,6 +1,10 @@
 {
   "name": "text-ng-templates-brunch",
   "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nestak/text-ng-templates-brunch"
+  },
   "engines": {
     "node": "6.10.0",
     "npm": "3.10.10"
@@ -11,5 +15,6 @@
   "dependencies": {
     "glob": "~6.0",
     "cheerio": "~0.22"
-  }
+  },
+  "license": "MIT"
 }
