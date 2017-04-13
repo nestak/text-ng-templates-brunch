@@ -6,18 +6,21 @@ var cheerio = require('cheerio');
 
 function Templates (config) {
     var defaults = {
-        insertTo: './public/index.html'
+        insertTo: './public/index.html',
+        extension: 'html'
     };
     var params = Object.assign(defaults, config.plugins.textNgTemplates);
 
     this.insertTo = params.insertTo;
-    this.targetId = filename(params.insertTo);
+    this.extension = params.extension;
     this.TEMPLATE_CACHE = {};
     this.templatesToUpdate = [];
 }
 
 Templates.prototype.brunchPlugin = true;
-Templates.prototype.extension = 'html';
+Templates.prototype.extension = function () {
+    return this.extension;
+};
 
 Templates.prototype.compile = function (file) {
     var id = filename(file.path);
